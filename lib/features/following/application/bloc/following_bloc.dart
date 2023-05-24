@@ -50,16 +50,26 @@ class FollowingBloc extends Bloc<FollowingEvent, FollowingState> {
     SelectAnswerCardEvent event,
     Emitter<FollowingState> emit,
   ) {
+    int cardId = event.cardId ?? state.allFollowingCards[state.currentCardIdx].card.id;
+    int? selectedAnswer = event.answer ?? state.allFollowingCards[state.currentCardIdx].selectedAnswer;
+
+    if (event.cardId == null) {
+      emit(
+        state.copyWith(showAnswer: !state.showAnswer),
+      );
+    }
     final updatedList = state.allFollowingCards.map((card) {
-      if (card.card.id == event.cardId) {
-        final updatedCard = card.copyWith(selectedAnswer: event.answer);
+      if (card.card.id == cardId) {
+        final updatedCard = card.copyWith(selectedAnswer: selectedAnswer);
         return updatedCard;
       }
       return card;
     }).toList();
 
     emit(
-      state.copyWith(followingCard: updatedList),
+      state.copyWith(
+        followingCard: updatedList,
+      ),
     );
   }
 

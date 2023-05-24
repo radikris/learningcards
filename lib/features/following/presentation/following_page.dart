@@ -6,8 +6,10 @@ import 'package:learningcards/features/common/application/bloc_state.dart';
 import 'package:learningcards/features/common/presentation/app_loader.dart';
 import 'package:learningcards/features/common/presentation/infinite_scroll_page.dart';
 import 'package:learningcards/features/common/presentation/play_list.dart';
+import 'package:learningcards/features/common/presentation/side_action_button.dart';
 import 'package:learningcards/features/common/presentation/side_action_list.dart';
 import 'package:learningcards/features/following/application/bloc/following_bloc.dart';
+import 'package:learningcards/gen/assets.gen.dart';
 import 'package:learningcards/injectable.dart';
 
 class FollowingPage extends StatelessWidget {
@@ -59,11 +61,35 @@ class _FollowingViewState extends State<FollowingView> {
                   bloc.add(FetchFollowingEvent());
                 },
                 data: cards,
-                child: followingCard.accept(visitor, props: ({'showAnswer': false})),
+                child: followingCard.accept(visitor,
+                    props: ({
+                      'showAnswer': blocState.showAnswer,
+                      'selectedAnswer': followingCardWithAnswer.selectedAnswer
+                    })),
                 flipChild: followingCard.accept(visitor,
-                    props: ({'showAnswer': true, 'selectedAnswer': followingCardWithAnswer.selectedAnswer})),
+                    props: ({
+                      'showAnswer': !blocState.showAnswer,
+                      'selectedAnswer': followingCardWithAnswer.selectedAnswer
+                    })),
               ),
-              Positioned(bottom: AppDimen.h48, right: 0, child: SideActionList(avatarUrl: followingCard.user.avatar)),
+              Positioned(
+                  bottom: AppDimen.h48,
+                  right: 0,
+                  child: SideActionList(
+                    avatarUrl: followingCard.user.avatar,
+                    actions: [
+                      SideActionButton(onTap: () {}, label: "87", icon: Assets.like.svg()),
+                      SideActionButton(onTap: () {}, label: "2", icon: Assets.comments.svg()),
+                      SideActionButton(onTap: () {}, label: "17", icon: Assets.share.svg()),
+                      SideActionButton(onTap: () {}, label: "203", icon: Assets.bookmark.svg()),
+                      SideActionButton(
+                          onTap: () {
+                            bloc.add(SelectAnswerCardEvent(cardId: null, answer: null));
+                          },
+                          label: "Flip",
+                          icon: Assets.flip.svg()),
+                    ],
+                  )),
               Positioned(
                 bottom: 0,
                 child: PlayList(

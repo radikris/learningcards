@@ -50,12 +50,13 @@ class ForYouBloc extends Bloc<ForYouEvent, ForYouState> {
     Emitter<ForYouState> emit,
   ) async {
     //emit(state.copyWith(state: BlocState.loading()));
-    final result = await forYouRepository.getAnswersForQuestion(event.cardId);
+    int cardId = event.cardId ?? state.allForYouCards[state.currentCardIdx].card.id;
+    final result = await forYouRepository.getAnswersForQuestion(cardId);
 
     result.when(
       success: (success) {
         final updatedList = state.allForYouCards.map((card) {
-          if (card.card.id == event.cardId) {
+          if (card.card.id == cardId) {
             final updatedCard = card.copyWith(
                 selectedAnswer: event.answer, correctAnswer: success.correctOptions.map((e) => e.id).toList());
             return updatedCard;

@@ -17,11 +17,11 @@ class FetchForYouEvent extends ForYouEvent {
 
 class SelectAnswerCardEvent extends ForYouEvent {
   SelectAnswerCardEvent({required this.cardId, required this.answer});
-  final int cardId;
-  final String answer;
+  int? cardId;
+  String? answer;
 
   @override
-  List<Object> get props => [cardId, answer];
+  List<Object> get props => [];
 }
 
 class ScrollCurrentPageEvent extends ForYouEvent {
