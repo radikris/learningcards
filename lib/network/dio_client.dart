@@ -43,7 +43,6 @@ abstract class DioInjectableModule {
           },
           onResponse: (response, handler) {
             debugPrint('::: Api response : $response');
-            print(response.statusCode);
             return handler.next(response);
           },
           onError: (DioError e, handler) {

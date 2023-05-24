@@ -1,23 +1,23 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:learningcards/app/app_config.dart';
 import 'package:learningcards/app/app_dimen.dart';
-import 'package:learningcards/features/common/presentation/app_loader.dart';
-import 'package:learningcards/features/following/application/bloc/following_bloc.dart';
 
 class InfiniteScrollPage<T> extends StatefulWidget {
   const InfiniteScrollPage(
-      {required this.fetchNext,
+      {super.key,
+      required this.fetchNext,
       required this.child,
       required this.flipChild,
       required this.data,
-      required this.onScroll});
+      required this.onScroll,
+      this.initialPage});
 
   final Function fetchNext;
   final Function(int idx) onScroll;
   final Widget child;
   final Widget flipChild;
   final List<T> data;
+  final int? initialPage;
 
   @override
   _InfiniteScrollPageState createState() => _InfiniteScrollPageState();
@@ -46,13 +46,14 @@ class _InfiniteScrollPageState extends State<InfiniteScrollPage> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    //_pageController!.jumpToPage(currentPage);
+    /* if (widget.initialPage != null && currentPage != widget.initialPage) {
+      _pageController!.jumpToPage(widget.initialPage!);
+    } */
   }
 
   void _scrollListener() {
     if (_pageController!.position.pixels == _pageController!.position.maxScrollExtent) {
       //_fetchData();
-      print("VEGE");
     }
   }
 
@@ -64,7 +65,6 @@ class _InfiniteScrollPageState extends State<InfiniteScrollPage> {
   }
 
   void onPageChanged(int newPage) {
-    print(newPage);
     setState(() {
       currentPage = newPage; //TODO IF BACKEND WOULD HAVE PAGINATION FOR BATCH FETCH (PREFETCH)
       isFlip = false;

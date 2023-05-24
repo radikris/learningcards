@@ -1,6 +1,7 @@
 import 'package:injectable/injectable.dart';
 import 'package:learningcards/app/app_config.dart';
 import 'package:learningcards/features/following/domain/following_card_model.dart';
+import 'package:learningcards/features/foryou/domain/for_you_answer_model.dart';
 import 'package:learningcards/features/foryou/domain/for_you_card_model.dart';
 import 'package:retrofit/retrofit.dart';
 import 'package:dio/dio.dart' hide Headers;
@@ -17,8 +18,8 @@ abstract class ApiClient {
   @GET('/for_you')
   Future<ForYouCard> getForYous();
 
-  @GET('/for_you/{id}')
-  Future<ForYouCard> getForYouAnswer(@Path('id') int id);
+  @GET('/reveal?id={id}')
+  Future<ForYouAnswerModel> getForYouAnswer(@Path('id') String id);
 }
 
 @module

@@ -32,7 +32,6 @@ class _FollowingBackState extends State<FollowingBack> {
   Widget build(BuildContext context) {
     final textTheme = context.textTheme;
     final colors = context.appColors;
-    print(widget.selectedAnswer);
     return Stack(
       children: [
         Container(

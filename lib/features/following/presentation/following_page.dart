@@ -1,18 +1,13 @@
-import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:learningcards/app/app_dimen.dart';
 import 'package:learningcards/app/app_extensions.dart';
 import 'package:learningcards/features/common/application/bloc_state.dart';
-import 'package:learningcards/features/common/domain/common_models.dart';
 import 'package:learningcards/features/common/presentation/app_loader.dart';
 import 'package:learningcards/features/common/presentation/infinite_scroll_page.dart';
 import 'package:learningcards/features/common/presentation/play_list.dart';
 import 'package:learningcards/features/common/presentation/side_action_list.dart';
 import 'package:learningcards/features/following/application/bloc/following_bloc.dart';
-import 'package:learningcards/features/following/domain/following_card_model.dart';
-import 'package:learningcards/features/following/presentation/following_back.dart';
-import 'package:learningcards/features/following/presentation/following_front.dart';
 import 'package:learningcards/injectable.dart';
 
 class FollowingPage extends StatelessWidget {
@@ -33,59 +28,7 @@ class FollowingView extends StatefulWidget {
 }
 
 class _FollowingViewState extends State<FollowingView> {
-  List<dynamic> data = [];
-  int currentPage = 1;
-  bool isLoading = false;
-  PageController? _pageController;
   final CardVisitor<Widget> visitor = CardWidgetVisitor();
-
-  @override
-  void initState() {
-    super.initState();
-    _fetchData();
-    _pageController = PageController();
-    _pageController!.addListener(_scrollListener);
-  }
-
-  @override
-  void dispose() {
-    _pageController!.dispose();
-    super.dispose();
-  }
-
-  void _scrollListener() {
-    if (_pageController!.position.pixels == _pageController!.position.maxScrollExtent) {
-      _fetchData();
-    }
-  }
-
-  Future<void> _fetchData() async {
-    if (!isLoading) {
-      setState(() {
-        isLoading = true;
-      });
-
-      final apiUrl = 'https://your-api-endpoint.com/data?page=$currentPage';
-
-      try {
-        // final response = await http.get(Uri.parse(apiUrl));
-        final response = ['data', 'data2', 'data3'];
-        //final jsonData = json.decode(response);
-
-        setState(() {
-          data.addAll(response);
-          currentPage++;
-          isLoading = false;
-        });
-      } catch (error) {
-        // Handle error
-        print('Error fetching data: $error');
-        setState(() {
-          isLoading = false;
-        });
-      }
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -106,7 +49,6 @@ class _FollowingViewState extends State<FollowingView> {
           if (cards.isEmpty) return SizedBox();
           final followingCard = cards.elementAt(blocState.currentCardIdx).card;
           final followingCardWithAnswer = cards.elementAt(blocState.currentCardIdx);
-          print('MUTATO ${followingCard.id}');
           return Stack(
             children: [
               InfiniteScrollPage<CardWithAnswer>(
@@ -121,12 +63,13 @@ class _FollowingViewState extends State<FollowingView> {
                 flipChild: followingCard.accept(visitor,
                     props: ({'showAnswer': true, 'selectedAnswer': followingCardWithAnswer.selectedAnswer})),
               ),
-              Positioned(bottom: AppDimen.h42, right: 0, child: SideActionList(avatarUrl: followingCard.user.avatar)),
+              Positioned(bottom: AppDimen.h48, right: 0, child: SideActionList(avatarUrl: followingCard.user.avatar)),
               Positioned(
                 bottom: 0,
                 child: PlayList(
                   topic: followingCard.description,
                   title: followingCard.playlist,
+                  userCategory: followingCard.user.name,
                 ),
               ),
             ],
@@ -135,24 +78,6 @@ class _FollowingViewState extends State<FollowingView> {
           return SizedBox();
         }
       }),
-    );
-  }
-
-  Widget _buildItem(dynamic item) {
-    return Container(
-      // Customize how each item is displayed
-      child: Center(
-        child: Text(item.toString()),
-      ),
-    );
-  }
-
-  Widget _buildLoader() {
-    return Container(
-      height: 50,
-      child: Center(
-        child: CircularProgressIndicator(),
-      ),
     );
   }
 }

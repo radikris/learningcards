@@ -6,7 +6,8 @@ import 'package:learningcards/gen/assets.gen.dart';
 class PlayList extends StatelessWidget {
   final String title;
   final String topic;
-  const PlayList({super.key, required this.title, required this.topic});
+  final String userCategory;
+  const PlayList({super.key, required this.title, required this.topic, required this.userCategory});
 
   @override
   Widget build(BuildContext context) {
@@ -16,6 +17,16 @@ class PlayList extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+        Padding(
+          padding: EdgeInsets.only(left: AppDimen.w16, right: AppDimen.w48),
+          child: Text(
+            userCategory,
+            style: textTheme.bodySmall!.copyWith(color: colors.white),
+          ),
+        ),
+        SizedBox(
+          height: AppDimen.h2,
+        ),
         Padding(
           padding: EdgeInsets.only(left: AppDimen.w16, right: AppDimen.w48),
           child: Text(

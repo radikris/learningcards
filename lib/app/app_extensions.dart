@@ -6,6 +6,7 @@ import 'package:learningcards/features/following/domain/following_card_model.dar
 import 'package:learningcards/features/following/presentation/following_back.dart';
 import 'package:learningcards/features/following/presentation/following_front.dart';
 import 'package:learningcards/features/foryou/domain/for_you_card_model.dart';
+import 'package:learningcards/features/foryou/presentation/for_you_card_show.dart';
 import 'package:learningcards/network/api_error.dart';
 
 extension BuildContextX on BuildContext {
@@ -152,7 +153,14 @@ class CardWidgetVisitor implements CardVisitor<Widget> {
 
   @override
   Widget visitMultipleChoice(ForYouCard multipleChoice, {Map<String, dynamic>? props}) {
-    // TODO: implement visitMultipleChoice
-    throw UnimplementedError();
+    final showAnswer = props?['showAnswer'] ?? false;
+    final selectedAnswer = props?['selectedAnswer'];
+    final correctAnswers = props?['correctAnswers'];
+    return ForYouCardShow(
+      forYouCard: multipleChoice,
+      selectedAnswer: selectedAnswer,
+      showAnswer: showAnswer,
+      correctAnswers: correctAnswers,
+    );
   }
 }

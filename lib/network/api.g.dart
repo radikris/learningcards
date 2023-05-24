@@ -67,25 +67,25 @@ class _ApiClient implements ApiClient {
   }
 
   @override
-  Future<ForYouCard> getForYouAnswer(id) async {
+  Future<ForYouAnswerModel> getForYouAnswer(id) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     final Map<String, dynamic>? _data = null;
     final _result = await _dio
-        .fetch<Map<String, dynamic>>(_setStreamType<ForYouCard>(Options(
+        .fetch<Map<String, dynamic>>(_setStreamType<ForYouAnswerModel>(Options(
       method: 'GET',
       headers: _headers,
       extra: _extra,
     )
             .compose(
               _dio.options,
-              '/for_you/${id}',
+              '/reveal?id=${id}',
               queryParameters: queryParameters,
               data: _data,
             )
             .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
-    final value = ForYouCard.fromJson(_result.data!);
+    final value = ForYouAnswerModel.fromJson(_result.data!);
     return value;
   }
 

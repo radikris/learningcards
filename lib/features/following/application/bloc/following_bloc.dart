@@ -16,12 +16,12 @@ part 'following_state.dart';
 class FollowingBloc extends Bloc<FollowingEvent, FollowingState> {
   final FollowingRepository followingRepository;
   FollowingBloc({required this.followingRepository}) : super(FollowingState([], false, BlocState.initial(), 0)) {
-    on<FetchFollowingEvent>(_onFetchAllMyOrdersEvent);
+    on<FetchFollowingEvent>(_onFetchAllFollowingEvent);
     on<SelectAnswerCardEvent>(_onSelectAnswer);
     on<ScrollCurrentPageEvent>(_onScrollPage);
   }
 
-  FutureOr<void> _onFetchAllMyOrdersEvent(
+  FutureOr<void> _onFetchAllFollowingEvent(
     FetchFollowingEvent event,
     Emitter<FollowingState> emit,
   ) async {
@@ -35,10 +35,6 @@ class FollowingBloc extends Bloc<FollowingEvent, FollowingState> {
           ...currentData.allFollowingCards,
           ...success.map((e) => CardWithAnswer.fromCard(e)).toList()
         ];
-
-        print('SORREND');
-        updatedFollowingCardList.forEach((e) => print(e.card.id));
-        print('*******');
 
         emit(
           state.copyWith(state: BlocState.data(), followingCard: updatedFollowingCardList),

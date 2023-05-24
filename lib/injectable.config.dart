@@ -14,13 +14,19 @@ import 'package:get_it/get_it.dart' as _i1;
 import 'package:injectable/injectable.dart' as _i2;
 import 'package:learningcards/app/app_config.dart' as _i3;
 import 'package:learningcards/features/following/application/bloc/following_bloc.dart'
-    as _i8;
+    as _i10;
 import 'package:learningcards/features/following/data/following_repository_impl.dart'
     as _i7;
 import 'package:learningcards/features/following/domain/following_repository.dart'
     as _i6;
+import 'package:learningcards/features/foryou/application/bloc/for_you_bloc.dart'
+    as _i11;
+import 'package:learningcards/features/foryou/data/for_you_repository_impl.dart'
+    as _i9;
+import 'package:learningcards/features/foryou/domain/for_you_repository.dart'
+    as _i8;
 import 'package:learningcards/network/api.dart' as _i5;
-import 'package:learningcards/network/dio_client.dart' as _i9;
+import 'package:learningcards/network/dio_client.dart' as _i12;
 
 const String _dev = 'dev';
 const String _prod = 'prod';
@@ -55,12 +61,18 @@ extension GetItInjectableX on _i1.GetIt {
       () => _i7.FollowingRepositoryImpl(gh<_i5.ApiClient>()),
       registerFor: {_prod},
     );
-    gh.factory<_i8.FollowingBloc>(() =>
-        _i8.FollowingBloc(followingRepository: gh<_i6.FollowingRepository>()));
+    gh.lazySingleton<_i8.ForYouRepository>(
+      () => _i9.ForYouRepositoryImpl(gh<_i5.ApiClient>()),
+      registerFor: {_prod},
+    );
+    gh.factory<_i10.FollowingBloc>(() =>
+        _i10.FollowingBloc(followingRepository: gh<_i6.FollowingRepository>()));
+    gh.factory<_i11.ForYouBloc>(
+        () => _i11.ForYouBloc(forYouRepository: gh<_i8.ForYouRepository>()));
     return this;
   }
 }
 
-class _$DioInjectableModule extends _i9.DioInjectableModule {}
+class _$DioInjectableModule extends _i12.DioInjectableModule {}
 
 class _$RegisterModule extends _i5.RegisterModule {}

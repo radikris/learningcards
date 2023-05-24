@@ -23,6 +23,8 @@ class Assets {
   static const SvgGenImage bookmarks = SvgGenImage('assets/bookmarks.svg');
   static const SvgGenImage discover = SvgGenImage('assets/discover.svg');
   static const SvgGenImage home = SvgGenImage('assets/home.svg');
+  static const SvgGenImage mcqFailure = SvgGenImage('assets/mcqFailure.svg');
+  static const SvgGenImage mcqSuccess = SvgGenImage('assets/mcqSuccess.svg');
   static const SvgGenImage playlist = SvgGenImage('assets/playlist.svg');
   static const SvgGenImage plus = SvgGenImage('assets/plus.svg');
   static const SvgGenImage profile = SvgGenImage('assets/profile.svg');
@@ -43,6 +45,8 @@ class Assets {
         bookmarks,
         discover,
         home,
+        mcqFailure,
+        mcqSuccess,
         playlist,
         plus,
         profile,

@@ -1,100 +1,91 @@
-import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:learningcards/app/app_dimen.dart';
+import 'package:learningcards/app/app_extensions.dart';
+import 'package:learningcards/features/common/application/bloc_state.dart';
+import 'package:learningcards/features/common/presentation/app_loader.dart';
+import 'package:learningcards/features/common/presentation/infinite_scroll_page.dart';
+import 'package:learningcards/features/common/presentation/play_list.dart';
+import 'package:learningcards/features/common/presentation/side_action_list.dart';
+import 'package:learningcards/features/foryou/application/bloc/for_you_bloc.dart';
+import 'package:learningcards/injectable.dart';
 
-class ForYouPage extends StatefulWidget {
-  @override
-  _ForYouPageState createState() => _ForYouPageState();
-}
-
-class _ForYouPageState extends State<ForYouPage> {
-  List<dynamic> data = [];
-  int currentPage = 1;
-  bool isLoading = false;
-  PageController? _pageController;
-
-  @override
-  void initState() {
-    super.initState();
-    _fetchData();
-    _pageController = PageController();
-    _pageController!.addListener(_scrollListener);
-  }
-
-  @override
-  void dispose() {
-    _pageController!.dispose();
-    super.dispose();
-  }
-
-  void _scrollListener() {
-    if (_pageController!.position.pixels == _pageController!.position.maxScrollExtent) {
-      _fetchData();
-    }
-  }
-
-  Future<void> _fetchData() async {
-    if (!isLoading) {
-      setState(() {
-        isLoading = true;
-      });
-
-      final apiUrl = 'https://your-api-endpoint.com/data?page=$currentPage';
-
-      try {
-        // final response = await http.get(Uri.parse(apiUrl));
-        final response = ['data', 'data2', 'data3'];
-        //final jsonData = json.decode(response);
-
-        setState(() {
-          data.addAll(response);
-          currentPage++;
-          isLoading = false;
-        });
-      } catch (error) {
-        // Handle error
-        print('Error fetching data: $error');
-        setState(() {
-          isLoading = false;
-        });
-      }
-    }
-  }
+class ForYouPage extends StatelessWidget {
+  const ForYouPage({super.key});
 
   @override
   Widget build(BuildContext context) {
+    return BlocProvider<ForYouBloc>(
+      create: (context) => getIt<ForYouBloc>()..add(FetchForYouEvent()),
+      child: ForYouView(),
+    );
+  }
+}
+
+class ForYouView extends StatefulWidget {
+  @override
+  _ForYouViewState createState() => _ForYouViewState();
+}
+
+class _ForYouViewState extends State<ForYouView> {
+  final CardVisitor<Widget> visitor = CardWidgetVisitor();
+
+  @override
+  Widget build(BuildContext context) {
+    final bloc = context.read<ForYouBloc>();
+    final blocState = context.watch<ForYouBloc>().state;
+    final state = blocState.state;
+
     return Scaffold(
       backgroundColor: Colors.transparent,
-      body: PageView.builder(
-        scrollDirection: Axis.vertical,
-        controller: _pageController,
-        itemCount: data.length + 1,
-        itemBuilder: (context, index) {
-          if (index == data.length) {
-            return _buildLoader();
-          } else {
-            final item = data[index];
-            return _buildItem(item);
-          }
-        },
-      ),
-    );
-  }
+      body: Builder(builder: (context) {
+        if (state.isLoading) {
+          return AppLoader();
+        } else if (state.isError) {
+          return Center(child: Text(state.asError.error));
+        } else if (state.isData) {
+          final cards = blocState.allForYouCards;
 
-  Widget _buildItem(dynamic item) {
-    return Container(
-      // Customize how each item is displayed
-      child: Center(
-        child: Text(item.toString()),
-      ),
-    );
-  }
+          if (cards.isEmpty) return SizedBox();
+          final forYouCard = cards.elementAt(blocState.currentCardIdx).card;
+          final forYouCardWithAnswer = cards.elementAt(blocState.currentCardIdx);
 
-  Widget _buildLoader() {
-    return Container(
-      height: 50,
-      child: Center(
-        child: CircularProgressIndicator(),
-      ),
+          final child = forYouCard.accept(visitor,
+              props: ({
+                'showAnswer': blocState.showAnswer || forYouCardWithAnswer.correctAnswer != null,
+                'selectedAnswer': forYouCardWithAnswer.selectedAnswer,
+                'correctAnswers': forYouCardWithAnswer.correctAnswer
+              }));
+
+          return Stack(
+            children: [
+              InfiniteScrollPage<CardWithMultipleChoice>(
+                initialPage: blocState.currentCardIdx,
+                onScroll: (page) {
+                  bloc.add(ScrollCurrentPageEvent(pageIndex: page));
+                },
+                fetchNext: () {
+                  bloc.add(FetchForYouEvent());
+                },
+                data: cards,
+                child: child,
+                flipChild: child,
+              ),
+              Positioned(bottom: AppDimen.h48, right: 0, child: SideActionList(avatarUrl: forYouCard.user.avatar)),
+              Positioned(
+                bottom: 0,
+                child: PlayList(
+                  topic: forYouCard.description,
+                  title: forYouCard.playlist,
+                  userCategory: forYouCard.user.name,
+                ),
+              ),
+            ],
+          );
+        } else {
+          return SizedBox();
+        }
+      }),
     );
   }
 }
