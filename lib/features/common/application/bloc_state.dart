@@ -8,10 +8,7 @@ abstract class BlocState<T> with _$BlocState<T> {
   const factory BlocState.initial() = InitialState<T>;
   const factory BlocState.loading() = LoadingState<T>;
   const factory BlocState.error(String error) = ErrorState<T>;
-  const factory BlocState.data(T data) = DataState<T>;
-
-  //const BlocState._();
-  //T? get value => null;
+  const factory BlocState.data() = DataState<T>;
 }
 
 extension BlocStateExtension<T> on BlocState<T> {
@@ -25,18 +22,12 @@ extension BlocStateExtension<T> on BlocState<T> {
   ErrorState<T> get asError => this as ErrorState<T>;
   DataState<T> get asData => this as DataState<T>;
 
-  T? get dataOrNull => isData ? asData.data : null;
-
-  BlocState<R> mapData<R>(R Function(T data) transform) {
-    return isData ? BlocState.data(transform(asData.data)) : this as BlocState<R>;
-  }
-
   BlocState<T> copyWith({
     T? data,
     String? error,
   }) {
     if (isData && data != null) {
-      return BlocState.data(data);
+      return BlocState.data();
     } else if (isError && error != null) {
       return BlocState.error(error);
     } else {

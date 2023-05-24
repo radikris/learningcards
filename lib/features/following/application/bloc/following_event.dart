@@ -14,3 +14,12 @@ class FetchFollowingEvent extends FollowingEvent {
   @override
   List<Object> get props => [];
 }
+
+class SelectAnswerCardEvent extends FollowingEvent {
+  SelectAnswerCardEvent({required this.cardId, required this.answer});
+  final int cardId;
+  final int answer;
+
+  @override
+  List<Object> get props => [];
+}

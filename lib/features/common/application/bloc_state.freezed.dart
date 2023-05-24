@@ -21,7 +21,7 @@ mixin _$BlocState<T> {
     required TResult Function() initial,
     required TResult Function() loading,
     required TResult Function(String error) error,
-    required TResult Function(T data) data,
+    required TResult Function() data,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -29,7 +29,7 @@ mixin _$BlocState<T> {
     TResult? Function()? initial,
     TResult? Function()? loading,
     TResult? Function(String error)? error,
-    TResult? Function(T data)? data,
+    TResult? Function()? data,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -37,7 +37,7 @@ mixin _$BlocState<T> {
     TResult Function()? initial,
     TResult Function()? loading,
     TResult Function(String error)? error,
-    TResult Function(T data)? data,
+    TResult Function()? data,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -127,7 +127,7 @@ class _$InitialState<T> implements InitialState<T> {
     required TResult Function() initial,
     required TResult Function() loading,
     required TResult Function(String error) error,
-    required TResult Function(T data) data,
+    required TResult Function() data,
   }) {
     return initial();
   }
@@ -138,7 +138,7 @@ class _$InitialState<T> implements InitialState<T> {
     TResult? Function()? initial,
     TResult? Function()? loading,
     TResult? Function(String error)? error,
-    TResult? Function(T data)? data,
+    TResult? Function()? data,
   }) {
     return initial?.call();
   }
@@ -149,7 +149,7 @@ class _$InitialState<T> implements InitialState<T> {
     TResult Function()? initial,
     TResult Function()? loading,
     TResult Function(String error)? error,
-    TResult Function(T data)? data,
+    TResult Function()? data,
     required TResult orElse(),
   }) {
     if (initial != null) {
@@ -241,7 +241,7 @@ class _$LoadingState<T> implements LoadingState<T> {
     required TResult Function() initial,
     required TResult Function() loading,
     required TResult Function(String error) error,
-    required TResult Function(T data) data,
+    required TResult Function() data,
   }) {
     return loading();
   }
@@ -252,7 +252,7 @@ class _$LoadingState<T> implements LoadingState<T> {
     TResult? Function()? initial,
     TResult? Function()? loading,
     TResult? Function(String error)? error,
-    TResult? Function(T data)? data,
+    TResult? Function()? data,
   }) {
     return loading?.call();
   }
@@ -263,7 +263,7 @@ class _$LoadingState<T> implements LoadingState<T> {
     TResult Function()? initial,
     TResult Function()? loading,
     TResult Function(String error)? error,
-    TResult Function(T data)? data,
+    TResult Function()? data,
     required TResult orElse(),
   }) {
     if (loading != null) {
@@ -381,7 +381,7 @@ class _$ErrorState<T> implements ErrorState<T> {
     required TResult Function() initial,
     required TResult Function() loading,
     required TResult Function(String error) error,
-    required TResult Function(T data) data,
+    required TResult Function() data,
   }) {
     return error(this.error);
   }
@@ -392,7 +392,7 @@ class _$ErrorState<T> implements ErrorState<T> {
     TResult? Function()? initial,
     TResult? Function()? loading,
     TResult? Function(String error)? error,
-    TResult? Function(T data)? data,
+    TResult? Function()? data,
   }) {
     return error?.call(this.error);
   }
@@ -403,7 +403,7 @@ class _$ErrorState<T> implements ErrorState<T> {
     TResult Function()? initial,
     TResult Function()? loading,
     TResult Function(String error)? error,
-    TResult Function(T data)? data,
+    TResult Function()? data,
     required TResult orElse(),
   }) {
     if (error != null) {
@@ -464,8 +464,6 @@ abstract class _$$DataStateCopyWith<T, $Res> {
   factory _$$DataStateCopyWith(
           _$DataState<T> value, $Res Function(_$DataState<T>) then) =
       __$$DataStateCopyWithImpl<T, $Res>;
-  @useResult
-  $Res call({T data});
 }
 
 /// @nodoc
@@ -475,51 +473,26 @@ class __$$DataStateCopyWithImpl<T, $Res>
   __$$DataStateCopyWithImpl(
       _$DataState<T> _value, $Res Function(_$DataState<T>) _then)
       : super(_value, _then);
-
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? data = freezed,
-  }) {
-    return _then(_$DataState<T>(
-      freezed == data
-          ? _value.data
-          : data // ignore: cast_nullable_to_non_nullable
-              as T,
-    ));
-  }
 }
 
 /// @nodoc
 
 class _$DataState<T> implements DataState<T> {
-  const _$DataState(this.data);
-
-  @override
-  final T data;
+  const _$DataState();
 
   @override
   String toString() {
-    return 'BlocState<$T>.data(data: $data)';
+    return 'BlocState<$T>.data()';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$DataState<T> &&
-            const DeepCollectionEquality().equals(other.data, data));
+        (other.runtimeType == runtimeType && other is _$DataState<T>);
   }
 
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, const DeepCollectionEquality().hash(data));
-
-  @JsonKey(ignore: true)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$DataStateCopyWith<T, _$DataState<T>> get copyWith =>
-      __$$DataStateCopyWithImpl<T, _$DataState<T>>(this, _$identity);
+  int get hashCode => runtimeType.hashCode;
 
   @override
   @optionalTypeArgs
@@ -527,9 +500,9 @@ class _$DataState<T> implements DataState<T> {
     required TResult Function() initial,
     required TResult Function() loading,
     required TResult Function(String error) error,
-    required TResult Function(T data) data,
+    required TResult Function() data,
   }) {
-    return data(this.data);
+    return data();
   }
 
   @override
@@ -538,9 +511,9 @@ class _$DataState<T> implements DataState<T> {
     TResult? Function()? initial,
     TResult? Function()? loading,
     TResult? Function(String error)? error,
-    TResult? Function(T data)? data,
+    TResult? Function()? data,
   }) {
-    return data?.call(this.data);
+    return data?.call();
   }
 
   @override
@@ -549,11 +522,11 @@ class _$DataState<T> implements DataState<T> {
     TResult Function()? initial,
     TResult Function()? loading,
     TResult Function(String error)? error,
-    TResult Function(T data)? data,
+    TResult Function()? data,
     required TResult orElse(),
   }) {
     if (data != null) {
-      return data(this.data);
+      return data();
     }
     return orElse();
   }
@@ -597,10 +570,5 @@ class _$DataState<T> implements DataState<T> {
 }
 
 abstract class DataState<T> implements BlocState<T> {
-  const factory DataState(final T data) = _$DataState<T>;
-
-  T get data;
-  @JsonKey(ignore: true)
-  _$$DataStateCopyWith<T, _$DataState<T>> get copyWith =>
-      throw _privateConstructorUsedError;
+  const factory DataState() = _$DataState<T>;
 }

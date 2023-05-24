@@ -25,4 +25,5 @@ class ConfigProd extends Config {
 
 class AppConstants {
   static int PRELOAD_PAGE = 0;
+  static int ANIMATION_DURATION = 300; //ms
 }

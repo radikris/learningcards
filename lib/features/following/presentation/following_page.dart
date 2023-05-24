@@ -90,7 +90,8 @@ class _FollowingViewState extends State<FollowingView> {
   @override
   Widget build(BuildContext context) {
     final bloc = context.read<FollowingBloc>();
-    final state = context.watch<FollowingBloc>().state.state;
+    final blocState = context.watch<FollowingBloc>().state;
+    final state = blocState.state;
 
     return Scaffold(
       backgroundColor: Colors.transparent,
@@ -100,17 +101,21 @@ class _FollowingViewState extends State<FollowingView> {
         } else if (state.isError) {
           return Center(child: Text(state.asError.error));
         } else if (state.isData) {
-          final card = state.asData.data;
-          final followingCard = card.allFollowingCards.last;
+          final cards = blocState.allFollowingCards;
+
+          if (cards.isEmpty) return SizedBox();
+          final followingCard = cards.last.card;
+          final followingCardWithAnswer = cards.last;
           return Stack(
             children: [
-              InfiniteScrollPage<CardBaseModel>(
+              InfiniteScrollPage<CardWithAnswer>(
                 fetchNext: () {
                   bloc.add(FetchFollowingEvent());
                 },
-                data: card.allFollowingCards,
+                data: cards,
                 child: followingCard.accept(visitor, props: ({'showAnswer': false})),
-                flipChild: followingCard.accept(visitor, props: ({'showAnswer': true})),
+                flipChild: followingCard.accept(visitor,
+                    props: ({'showAnswer': true, 'selectedAnswer': followingCardWithAnswer.selectedAnswer})),
               ),
               Positioned(bottom: AppDimen.h42, right: 0, child: SideActionList(avatarUrl: followingCard.user.avatar)),
               Positioned(

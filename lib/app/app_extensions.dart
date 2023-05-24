@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:learningcards/app/app_theme.dart';
 import 'package:learningcards/features/common/domain/common_models.dart';
+import 'package:learningcards/features/following/application/bloc/following_bloc.dart';
 import 'package:learningcards/features/following/domain/following_card_model.dart';
 import 'package:learningcards/features/following/presentation/following_back.dart';
 import 'package:learningcards/features/following/presentation/following_front.dart';
@@ -106,6 +107,31 @@ extension FlashcardFeedbackEnumX on FlashcardFeedbackEnum {
   }
 }
 
+extension intX on int {
+  FlashcardFeedbackEnum get toFlashCardValue {
+    switch (this) {
+      case 1:
+        return FlashcardFeedbackEnum.bad;
+      case 2:
+        return FlashcardFeedbackEnum.notbad;
+      case 3:
+        return FlashcardFeedbackEnum.normal;
+      case 4:
+        return FlashcardFeedbackEnum.good;
+      case 5:
+        return FlashcardFeedbackEnum.great;
+      default:
+        return FlashcardFeedbackEnum.normal;
+    }
+  }
+}
+
+extension CardWithAnswerX on List<CardWithAnswer> {
+  List<CardBaseModel> get toCards => this.map((e) => e.card).toList();
+}
+
+//VISITOR PATTERN
+
 abstract class CardVisitor<T> {
   T visitFlashcard(FollowingCard flashcard, {Map<String, dynamic>? props});
   T visitMultipleChoice(ForYouCard multipleChoice, {Map<String, dynamic>? props});
@@ -115,11 +141,12 @@ class CardWidgetVisitor implements CardVisitor<Widget> {
   @override
   Widget visitFlashcard(FollowingCard flashcard, {Map<String, dynamic>? props}) {
     final showAnswer = props?['showAnswer'] ?? false;
+    final selectedAnswer = props?['selectedAnswer'];
     return !showAnswer
         ? FollowingFront(question: flashcard.flashcardFront)
         : FollowingBack(
-            question: flashcard.flashcardFront,
-            answer: flashcard.flashcardBack,
+            followingCard: flashcard,
+            selectedAnswer: selectedAnswer,
           );
   }
 
