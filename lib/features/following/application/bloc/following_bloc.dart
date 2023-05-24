@@ -15,9 +15,10 @@ part 'following_state.dart';
 @injectable
 class FollowingBloc extends Bloc<FollowingEvent, FollowingState> {
   final FollowingRepository followingRepository;
-  FollowingBloc({required this.followingRepository}) : super(FollowingState([], false, BlocState.initial())) {
+  FollowingBloc({required this.followingRepository}) : super(FollowingState([], false, BlocState.initial(), 0)) {
     on<FetchFollowingEvent>(_onFetchAllMyOrdersEvent);
     on<SelectAnswerCardEvent>(_onSelectAnswer);
+    on<ScrollCurrentPageEvent>(_onScrollPage);
   }
 
   FutureOr<void> _onFetchAllMyOrdersEvent(
@@ -25,16 +26,19 @@ class FollowingBloc extends Bloc<FollowingEvent, FollowingState> {
     Emitter<FollowingState> emit,
   ) async {
     final currentData = state;
-    emit(state.copyWith(state: BlocState.loading()));
+    if (currentData.state.isInitial) emit(state.copyWith(state: BlocState.loading()));
     final result = await followingRepository.getFollowingCards();
 
     result.when(
       success: (success) {
         final List<CardWithAnswer> updatedFollowingCardList = [
           ...currentData.allFollowingCards,
-          CardWithAnswer.fromCard(success)
+          ...success.map((e) => CardWithAnswer.fromCard(e)).toList()
         ];
-        print('UJ HOSSZ' + updatedFollowingCardList.length.toString() + updatedFollowingCardList.toString());
+
+        print('SORREND');
+        updatedFollowingCardList.forEach((e) => print(e.card.id));
+        print('*******');
 
         emit(
           state.copyWith(state: BlocState.data(), followingCard: updatedFollowingCardList),
@@ -60,6 +64,15 @@ class FollowingBloc extends Bloc<FollowingEvent, FollowingState> {
 
     emit(
       state.copyWith(followingCard: updatedList),
+    );
+  }
+
+  void _onScrollPage(
+    ScrollCurrentPageEvent event,
+    Emitter<FollowingState> emit,
+  ) {
+    emit(
+      state.copyWith(currentCardIdx: event.pageIndex, showAnswer: false),
     );
   }
 }

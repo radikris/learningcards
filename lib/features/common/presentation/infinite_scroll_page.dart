@@ -1,12 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:learningcards/app/app_config.dart';
 import 'package:learningcards/app/app_dimen.dart';
 import 'package:learningcards/features/common/presentation/app_loader.dart';
+import 'package:learningcards/features/following/application/bloc/following_bloc.dart';
 
 class InfiniteScrollPage<T> extends StatefulWidget {
-  const InfiniteScrollPage({required this.fetchNext, required this.child, required this.flipChild, required this.data});
+  const InfiniteScrollPage(
+      {required this.fetchNext,
+      required this.child,
+      required this.flipChild,
+      required this.data,
+      required this.onScroll});
 
   final Function fetchNext;
+  final Function(int idx) onScroll;
   final Widget child;
   final Widget flipChild;
   final List<T> data;
@@ -16,7 +24,7 @@ class InfiniteScrollPage<T> extends StatefulWidget {
 }
 
 class _InfiniteScrollPageState extends State<InfiniteScrollPage> {
-  int currentPage = 1;
+  int currentPage = 0;
   bool isLoading = false;
   bool isFlip = false;
   PageController? _pageController;
@@ -38,11 +46,13 @@ class _InfiniteScrollPageState extends State<InfiniteScrollPage> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
+    //_pageController!.jumpToPage(currentPage);
   }
 
   void _scrollListener() {
     if (_pageController!.position.pixels == _pageController!.position.maxScrollExtent) {
-      _fetchData();
+      //_fetchData();
+      print("VEGE");
     }
   }
 
@@ -51,10 +61,15 @@ class _InfiniteScrollPageState extends State<InfiniteScrollPage> {
       isLoading = true;
     }); */
     widget.fetchNext();
+  }
 
+  void onPageChanged(int newPage) {
+    print(newPage);
     setState(() {
-      currentPage++; //TODO IF BACKEND WOULD HAVE PAGINATION FOR BATCH FETCH (PREFETCH)
+      currentPage = newPage; //TODO IF BACKEND WOULD HAVE PAGINATION FOR BATCH FETCH (PREFETCH)
+      isFlip = false;
     });
+    widget.onScroll(newPage);
   }
 
   void onFlip() {
@@ -68,11 +83,16 @@ class _InfiniteScrollPageState extends State<InfiniteScrollPage> {
     return Scaffold(
       backgroundColor: Colors.transparent,
       body: PageView.builder(
+        onPageChanged: onPageChanged,
         scrollDirection: Axis.vertical,
         controller: _pageController,
-        itemCount: widget.data.length + 1,
+        itemCount: widget.data.length,
         itemBuilder: (context, index) {
-          if (isLoading) return AppLoader();
+          if (index == widget.data.length - AppConstants.PRELOAD_PAGE) {
+            //PREFETCH
+            _fetchData();
+          }
+
           return Padding(
               padding: EdgeInsets.only(left: AppDimen.w16, right: AppDimen.w48),
               child: GestureDetector(
@@ -83,15 +103,6 @@ class _InfiniteScrollPageState extends State<InfiniteScrollPage> {
                 ),
               ));
         },
-      ),
-    );
-  }
-
-  Widget _buildItem(dynamic item) {
-    return Container(
-      // Customize how each item is displayed
-      child: Center(
-        child: Text(item.toString()),
       ),
     );
   }

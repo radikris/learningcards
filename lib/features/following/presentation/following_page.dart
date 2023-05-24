@@ -104,11 +104,15 @@ class _FollowingViewState extends State<FollowingView> {
           final cards = blocState.allFollowingCards;
 
           if (cards.isEmpty) return SizedBox();
-          final followingCard = cards.last.card;
-          final followingCardWithAnswer = cards.last;
+          final followingCard = cards.elementAt(blocState.currentCardIdx).card;
+          final followingCardWithAnswer = cards.elementAt(blocState.currentCardIdx);
+          print('MUTATO ${followingCard.id}');
           return Stack(
             children: [
               InfiniteScrollPage<CardWithAnswer>(
+                onScroll: (page) {
+                  bloc.add(ScrollCurrentPageEvent(pageIndex: page));
+                },
                 fetchNext: () {
                   bloc.add(FetchFollowingEvent());
                 },

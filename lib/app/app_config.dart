@@ -24,6 +24,7 @@ class ConfigProd extends Config {
 }
 
 class AppConstants {
-  static int PRELOAD_PAGE = 0;
+  static int PRELOAD_PAGE = 2;
   static int ANIMATION_DURATION = 300; //ms
+  static int PAGE_SIZE = 4; //how many card should we fetch
 }

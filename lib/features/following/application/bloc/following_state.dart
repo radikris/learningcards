@@ -5,15 +5,18 @@ class FollowingState {
   BlocState state;
   List<CardWithAnswer> allFollowingCards;
   bool showAnswer;
+  int currentCardIdx;
 
-  FollowingState(this.allFollowingCards, this.showAnswer, this.state);
+  FollowingState(this.allFollowingCards, this.showAnswer, this.state, this.currentCardIdx);
 
   FollowingState copyWith({
     List<CardWithAnswer>? followingCard,
     bool? showAnswer,
     BlocState? state,
+    int? currentCardIdx,
   }) {
-    return FollowingState(followingCard ?? allFollowingCards, showAnswer ?? this.showAnswer, state ?? this.state);
+    return FollowingState(followingCard ?? allFollowingCards, showAnswer ?? this.showAnswer, state ?? this.state,
+        currentCardIdx ?? this.currentCardIdx);
   }
 }
 

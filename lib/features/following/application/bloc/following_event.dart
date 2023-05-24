@@ -21,5 +21,13 @@ class SelectAnswerCardEvent extends FollowingEvent {
   final int answer;
 
   @override
-  List<Object> get props => [];
+  List<Object> get props => [cardId, answer];
+}
+
+class ScrollCurrentPageEvent extends FollowingEvent {
+  ScrollCurrentPageEvent({required this.pageIndex});
+  final int pageIndex;
+
+  @override
+  List<Object> get props => [pageIndex];
 }
