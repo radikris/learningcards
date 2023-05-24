@@ -20,6 +20,7 @@ class InfiniteScrollPage<T> extends StatefulWidget {
   final int? initialPage;
 
   @override
+  // ignore: library_private_types_in_public_api
   _InfiniteScrollPageState createState() => _InfiniteScrollPageState();
 }
 
@@ -99,7 +100,8 @@ class _InfiniteScrollPageState extends State<InfiniteScrollPage> {
                 onTap: onFlip,
                 child: Center(
                   child: AnimatedSwitcher(
-                      duration: Duration(milliseconds: 300), child: isFlip ? widget.flipChild : widget.child),
+                      duration: Duration(milliseconds: AppConstants.ANIMATION_DURATION),
+                      child: isFlip ? widget.flipChild : widget.child),
                 ),
               ));
         },

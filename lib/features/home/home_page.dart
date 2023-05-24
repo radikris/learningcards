@@ -2,9 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:learningcards/app/app_dimen.dart';
 import 'package:learningcards/app/app_extensions.dart';
 import 'package:learningcards/features/common/presentation/elapsed_time.dart';
-import 'package:learningcards/features/common/presentation/play_list.dart';
 import 'package:learningcards/features/common/presentation/search_bar.dart';
-import 'package:learningcards/features/common/presentation/side_action_list.dart';
 import 'package:learningcards/features/following/presentation/following_page.dart';
 import 'package:learningcards/features/foryou/presentation/for_you_page.dart';
 
@@ -13,12 +11,15 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MyHomePage();
+    return const MyHomePage();
   }
 }
 
 class MyHomePage extends StatefulWidget {
+  const MyHomePage({super.key});
+
   @override
+  // ignore: library_private_types_in_public_api
   _MyHomePageState createState() => _MyHomePageState();
 }
 
@@ -40,6 +41,7 @@ class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateM
   @override
   Widget build(BuildContext context) {
     final theme = context.appTheme;
+    final colors = context.appColors;
     return Scaffold(
       backgroundColor: Colors.transparent,
       appBar: AppBar(
@@ -48,7 +50,7 @@ class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateM
           child: TabBar(
             indicatorSize: TabBarIndicatorSize.tab,
             indicator: UnderlineTabIndicator(
-                borderSide: BorderSide(width: 5.0, color: Colors.white), insets: AppDimen.edgeh32),
+                borderSide: BorderSide(width: 5.0, color: colors.white!), insets: AppDimen.edgeh32),
             controller: _tabController,
             indicatorColor: Colors.white,
             indicatorWeight: 2.0,
@@ -63,14 +65,14 @@ class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateM
           ),
         ),
         centerTitle: true,
-        leading: ElapsedTimeUsage(),
-        actions: [AppSearchBar()],
+        leading: const ElapsedTimeUsage(),
+        actions: const [AppSearchBar()],
       ),
       body: Stack(
         children: [
           TabBarView(
             controller: _tabController,
-            children: [
+            children: const [
               FollowingPage(),
               ForYouPage(),
             ],

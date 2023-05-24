@@ -16,7 +16,7 @@ class FetchFollowingEvent extends FollowingEvent {
 }
 
 class SelectAnswerCardEvent extends FollowingEvent {
-  SelectAnswerCardEvent({required this.cardId, required this.answer});
+  const SelectAnswerCardEvent({required this.cardId, required this.answer});
   final int? cardId;
   final int? answer;
 
@@ -25,7 +25,7 @@ class SelectAnswerCardEvent extends FollowingEvent {
 }
 
 class ScrollCurrentPageEvent extends FollowingEvent {
-  ScrollCurrentPageEvent({required this.pageIndex});
+  const ScrollCurrentPageEvent({required this.pageIndex});
   final int pageIndex;
 
   @override

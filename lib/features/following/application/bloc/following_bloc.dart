@@ -6,7 +6,6 @@ import 'package:injectable/injectable.dart';
 import 'package:learningcards/app/app_extensions.dart';
 import 'package:learningcards/features/common/application/bloc_state.dart';
 import 'package:learningcards/features/common/domain/common_models.dart';
-import 'package:learningcards/features/following/domain/following_card_model.dart';
 import 'package:learningcards/features/following/domain/following_repository.dart';
 
 part 'following_event.dart';
@@ -15,7 +14,7 @@ part 'following_state.dart';
 @injectable
 class FollowingBloc extends Bloc<FollowingEvent, FollowingState> {
   final FollowingRepository followingRepository;
-  FollowingBloc({required this.followingRepository}) : super(FollowingState([], false, BlocState.initial(), 0)) {
+  FollowingBloc({required this.followingRepository}) : super(FollowingState([], false, const BlocState.initial(), 0)) {
     on<FetchFollowingEvent>(_onFetchAllFollowingEvent);
     on<SelectAnswerCardEvent>(_onSelectAnswer);
     on<ScrollCurrentPageEvent>(_onScrollPage);
@@ -26,7 +25,7 @@ class FollowingBloc extends Bloc<FollowingEvent, FollowingState> {
     Emitter<FollowingState> emit,
   ) async {
     final currentData = state;
-    if (currentData.state.isInitial) emit(state.copyWith(state: BlocState.loading()));
+    if (currentData.state.isInitial) emit(state.copyWith(state: const BlocState.loading()));
     final result = await followingRepository.getFollowingCards();
 
     result.when(
@@ -37,7 +36,7 @@ class FollowingBloc extends Bloc<FollowingEvent, FollowingState> {
         ];
 
         emit(
-          state.copyWith(state: BlocState.data(), followingCard: updatedFollowingCardList),
+          state.copyWith(state: const BlocState.data(), followingCard: updatedFollowingCardList),
         );
       },
       error: (error) {

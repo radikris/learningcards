@@ -15,8 +15,8 @@ abstract class DioInjectableModule {
     return Dio(
       BaseOptions(
         contentType: 'application/json',
-        connectTimeout: Duration(seconds: 15),
-        receiveTimeout: Duration(seconds: 15),
+        connectTimeout: const Duration(seconds: 15),
+        receiveTimeout: const Duration(seconds: 15),
         baseUrl: config.baseUrl,
       ),
     )
@@ -26,7 +26,7 @@ abstract class DioInjectableModule {
       ..interceptors.add(
         InterceptorsWrapper(
           onRequest: (options, handler) {
-            final apiKey = config.apiKey;
+            //final apiKey = config.apiKey;
             /*       
      TODO ADD CACHE OPTION
       final cacheOption = buildCacheOptions(Duration(days: 7));

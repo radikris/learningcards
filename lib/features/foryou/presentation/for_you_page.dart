@@ -18,13 +18,15 @@ class ForYouPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider<ForYouBloc>(
-      create: (context) => getIt<ForYouBloc>()..add(FetchForYouEvent()),
-      child: ForYouView(),
+      create: (context) => getIt<ForYouBloc>()..add(const FetchForYouEvent()),
+      child: const ForYouView(),
     );
   }
 }
 
 class ForYouView extends StatefulWidget {
+  const ForYouView({super.key});
+
   @override
   _ForYouViewState createState() => _ForYouViewState();
 }
@@ -42,13 +44,13 @@ class _ForYouViewState extends State<ForYouView> {
       backgroundColor: Colors.transparent,
       body: Builder(builder: (context) {
         if (state.isLoading) {
-          return AppLoader();
+          return const AppLoader();
         } else if (state.isError) {
           return Center(child: Text(state.asError.error));
         } else if (state.isData) {
           final cards = blocState.allForYouCards;
 
-          if (cards.isEmpty) return SizedBox();
+          if (cards.isEmpty) return const SizedBox();
           final forYouCard = cards.elementAt(blocState.currentCardIdx).card;
           final forYouCardWithAnswer = cards.elementAt(blocState.currentCardIdx);
 
@@ -67,11 +69,11 @@ class _ForYouViewState extends State<ForYouView> {
                   bloc.add(ScrollCurrentPageEvent(pageIndex: page));
                 },
                 fetchNext: () {
-                  bloc.add(FetchForYouEvent());
+                  bloc.add(const FetchForYouEvent());
                 },
                 data: cards,
-                child: child,
                 flipChild: child,
+                child: child,
               ),
               Positioned(
                   bottom: AppDimen.h48,
@@ -102,7 +104,7 @@ class _ForYouViewState extends State<ForYouView> {
             ],
           );
         } else {
-          return SizedBox();
+          return const SizedBox();
         }
       }),
     );

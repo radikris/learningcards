@@ -14,7 +14,7 @@ part 'for_you_state.dart';
 @injectable
 class ForYouBloc extends Bloc<ForYouEvent, ForYouState> {
   final ForYouRepository forYouRepository;
-  ForYouBloc({required this.forYouRepository}) : super(ForYouState([], false, BlocState.initial(), 0)) {
+  ForYouBloc({required this.forYouRepository}) : super(ForYouState([], false, const BlocState.initial(), 0)) {
     on<FetchForYouEvent>(_onFetchAllForYouEvent);
     on<SelectAnswerCardEvent>(_onSelectAnswer);
     on<ScrollCurrentPageEvent>(_onScrollPage);
@@ -25,7 +25,7 @@ class ForYouBloc extends Bloc<ForYouEvent, ForYouState> {
     Emitter<ForYouState> emit,
   ) async {
     final currentData = state;
-    if (currentData.state.isInitial) emit(state.copyWith(state: BlocState.loading()));
+    if (currentData.state.isInitial) emit(state.copyWith(state: const BlocState.loading()));
     final result = await forYouRepository.getForYouCards();
 
     result.when(
@@ -36,7 +36,7 @@ class ForYouBloc extends Bloc<ForYouEvent, ForYouState> {
         ];
 
         emit(
-          state.copyWith(state: BlocState.data(), forYouCard: updatedForYouCardList),
+          state.copyWith(state: const BlocState.data(), forYouCard: updatedForYouCardList),
         );
       },
       error: (error) {
@@ -65,7 +65,7 @@ class ForYouBloc extends Bloc<ForYouEvent, ForYouState> {
         }).toList();
 
         emit(
-          state.copyWith(state: BlocState.data(), forYouCard: updatedList, showAnswer: true),
+          state.copyWith(state: const BlocState.data(), forYouCard: updatedList, showAnswer: true),
         );
       },
       error: (error) {

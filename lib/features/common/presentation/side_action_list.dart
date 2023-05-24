@@ -5,7 +5,7 @@ import 'package:learningcards/features/common/presentation/side_action_button.da
 import 'package:learningcards/gen/assets.gen.dart';
 
 class SideActionList extends StatelessWidget {
-  SideActionList({super.key, required this.avatarUrl, required this.actions});
+  const SideActionList({super.key, required this.avatarUrl, required this.actions});
   final String avatarUrl;
 
   final List<SideActionButton> actions;

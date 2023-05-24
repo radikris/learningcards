@@ -11,7 +11,7 @@ class TimerCubit extends Cubit<int> {
   int _elapsedMinutes = 0;
 
   void _startTimer() {
-    _timer = Timer.periodic(Duration(minutes: 1), (_) {
+    _timer = Timer.periodic(const Duration(minutes: 1), (_) {
       _elapsedMinutes++;
       emit(_elapsedMinutes);
     });

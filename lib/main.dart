@@ -8,7 +8,6 @@ import 'package:learningcards/features/common/application/timer_cubit.dart';
 import 'package:learningcards/features/home/home_page.dart';
 import 'package:learningcards/gen/assets.gen.dart';
 import 'package:learningcards/injectable.dart';
-import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 
 void main() async {
   await configureDependencies(Environment.prod);
@@ -34,7 +33,7 @@ class MyApp extends StatelessWidget {
             child: MaterialApp(
               title: 'Flutter Demo',
               theme: appTheme,
-              home: MyAppWrapper(),
+              home: const MyAppWrapper(),
             ),
           );
         });
@@ -42,23 +41,15 @@ class MyApp extends StatelessWidget {
 }
 
 class MyAppWrapper extends StatefulWidget {
-  MyAppWrapper({super.key});
+  const MyAppWrapper({super.key});
 
   @override
+  // ignore: library_private_types_in_public_api
   _MyAppWrapperState createState() => _MyAppWrapperState();
 }
 
 class _MyAppWrapperState extends State<MyAppWrapper> {
-  late PersistentTabController _controller;
-
   int _selectedIndex = 0;
-  static const List<Widget> _widgetOptions = <Widget>[
-    HomePage(),
-    HomePage(),
-    HomePage(),
-    HomePage(),
-    HomePage(),
-  ];
 
   void _onItemTapped(int index) {
     setState(() {
@@ -69,17 +60,16 @@ class _MyAppWrapperState extends State<MyAppWrapper> {
   @override
   void initState() {
     super.initState();
-    _controller = PersistentTabController();
     //theme = Theme.of(context).extension<AppColors>()!;
   }
 
   List<Widget> _buildScreens() {
     return [
-      HomePage(),
-      HomePage(), //TODO HERE GOES THE OTHER PAGES
-      HomePage(), //TODO HERE GOES THE OTHER PAGES
-      HomePage(), //TODO HERE GOES THE OTHER PAGES
-      HomePage(), //TODO HERE GOES THE OTHER PAGES
+      const HomePage(),
+      const HomePage(), //TODO HERE GOES THE OTHER PAGES
+      const HomePage(), //TODO HERE GOES THE OTHER PAGES
+      const HomePage(), //TODO HERE GOES THE OTHER PAGES
+      const HomePage(), //TODO HERE GOES THE OTHER PAGES
     ];
   }
 

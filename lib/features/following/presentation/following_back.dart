@@ -38,7 +38,7 @@ class _FollowingBackState extends State<FollowingBack> {
         Container(
           margin: EdgeInsets.only(bottom: AppDimen.h130 * 1.5),
           child: ListView(
-            physics: BouncingScrollPhysics(),
+            physics: const BouncingScrollPhysics(),
             children: [
               SizedBox(
                 height: AppDimen.h10,
@@ -123,7 +123,7 @@ class _FollowingBackState extends State<FollowingBack> {
                                             duration: Duration(milliseconds: AppConstants.ANIMATION_DURATION),
                                             child: Container(
                                               height: AppDimen.h45,
-                                              width: widget.selectedAnswer != null && widget.selectedAnswer != e
+                                              width: widget.selectedAnswer != null && widget.selectedAnswer != e.toValue
                                                   ? 0
                                                   : AppDimen.w45,
                                               decoration: BoxDecoration(

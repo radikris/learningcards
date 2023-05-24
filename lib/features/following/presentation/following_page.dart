@@ -18,13 +18,15 @@ class FollowingPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider<FollowingBloc>(
-      create: (context) => getIt<FollowingBloc>()..add(FetchFollowingEvent()),
-      child: FollowingView(),
+      create: (context) => getIt<FollowingBloc>()..add(const FetchFollowingEvent()),
+      child: const FollowingView(),
     );
   }
 }
 
 class FollowingView extends StatefulWidget {
+  const FollowingView({super.key});
+
   @override
   _FollowingViewState createState() => _FollowingViewState();
 }
@@ -42,13 +44,13 @@ class _FollowingViewState extends State<FollowingView> {
       backgroundColor: Colors.transparent,
       body: Builder(builder: (context) {
         if (state.isLoading) {
-          return AppLoader();
+          return const AppLoader();
         } else if (state.isError) {
           return Center(child: Text(state.asError.error));
         } else if (state.isData) {
           final cards = blocState.allFollowingCards;
 
-          if (cards.isEmpty) return SizedBox();
+          if (cards.isEmpty) return const SizedBox();
           final followingCard = cards.elementAt(blocState.currentCardIdx).card;
           final followingCardWithAnswer = cards.elementAt(blocState.currentCardIdx);
           return Stack(
@@ -58,17 +60,17 @@ class _FollowingViewState extends State<FollowingView> {
                   bloc.add(ScrollCurrentPageEvent(pageIndex: page));
                 },
                 fetchNext: () {
-                  bloc.add(FetchFollowingEvent());
+                  bloc.add(const FetchFollowingEvent());
                 },
                 data: cards,
-                child: followingCard.accept(visitor,
-                    props: ({
-                      'showAnswer': blocState.showAnswer,
-                      'selectedAnswer': followingCardWithAnswer.selectedAnswer
-                    })),
                 flipChild: followingCard.accept(visitor,
                     props: ({
                       'showAnswer': !blocState.showAnswer,
+                      'selectedAnswer': followingCardWithAnswer.selectedAnswer
+                    })),
+                child: followingCard.accept(visitor,
+                    props: ({
+                      'showAnswer': blocState.showAnswer,
                       'selectedAnswer': followingCardWithAnswer.selectedAnswer
                     })),
               ),
@@ -84,7 +86,7 @@ class _FollowingViewState extends State<FollowingView> {
                       SideActionButton(onTap: () {}, label: "203", icon: Assets.bookmark.svg()),
                       SideActionButton(
                           onTap: () {
-                            bloc.add(SelectAnswerCardEvent(cardId: null, answer: null));
+                            bloc.add(const SelectAnswerCardEvent(cardId: null, answer: null));
                           },
                           label: "Flip",
                           icon: Assets.flip.svg()),
@@ -101,7 +103,7 @@ class _FollowingViewState extends State<FollowingView> {
             ],
           );
         } else {
-          return SizedBox();
+          return const SizedBox();
         }
       }),
     );

@@ -1,7 +1,5 @@
 import 'package:injectable/injectable.dart';
 import 'package:learningcards/app/app_config.dart';
-import 'package:learningcards/features/following/domain/following_card_model.dart';
-import 'package:learningcards/features/following/domain/following_repository.dart';
 import 'package:learningcards/features/foryou/domain/for_you_answer_model.dart';
 import 'package:learningcards/features/foryou/domain/for_you_card_model.dart';
 import 'package:learningcards/features/foryou/domain/for_you_repository.dart';

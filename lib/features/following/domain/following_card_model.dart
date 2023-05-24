@@ -1,5 +1,3 @@
-import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:learningcards/app/app_extensions.dart';
 import 'package:learningcards/features/common/domain/common_models.dart';
@@ -30,6 +28,7 @@ class FollowingCard extends CardBaseModel {
         );
 
   factory FollowingCard.fromJson(Map<String, dynamic> json) => _$FollowingCardFromJson(json);
+  @override
   Map<String, dynamic> toJson() => _$FollowingCardToJson(this);
 
   @override

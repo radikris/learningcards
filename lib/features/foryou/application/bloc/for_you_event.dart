@@ -15,6 +15,7 @@ class FetchForYouEvent extends ForYouEvent {
   List<Object> get props => [];
 }
 
+// ignore: must_be_immutable
 class SelectAnswerCardEvent extends ForYouEvent {
   SelectAnswerCardEvent({required this.cardId, required this.answer});
   int? cardId;
@@ -25,7 +26,7 @@ class SelectAnswerCardEvent extends ForYouEvent {
 }
 
 class ScrollCurrentPageEvent extends ForYouEvent {
-  ScrollCurrentPageEvent({required this.pageIndex});
+  const ScrollCurrentPageEvent({required this.pageIndex});
   final int pageIndex;
 
   @override

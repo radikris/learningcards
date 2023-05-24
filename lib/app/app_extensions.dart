@@ -108,7 +108,7 @@ extension FlashcardFeedbackEnumX on FlashcardFeedbackEnum {
   }
 }
 
-extension intX on int {
+extension IntX on int {
   FlashcardFeedbackEnum get toFlashCardValue {
     switch (this) {
       case 1:
@@ -128,7 +128,7 @@ extension intX on int {
 }
 
 extension CardWithAnswerX on List<CardWithAnswer> {
-  List<CardBaseModel> get toCards => this.map((e) => e.card).toList();
+  List<CardBaseModel> get toCards => map((e) => e.card).toList();
 }
 
 //VISITOR PATTERN

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:learningcards/app/app_config.dart';
 import 'package:learningcards/app/app_dimen.dart';
 import 'package:learningcards/app/app_extensions.dart';
 import 'package:learningcards/features/foryou/application/bloc/for_you_bloc.dart';
@@ -55,7 +54,7 @@ class _ForYouCardShowState extends State<ForYouCardShow> {
           Expanded(
             flex: 1,
             child: ListView(
-              physics: BouncingScrollPhysics(),
+              physics: const BouncingScrollPhysics(),
               children: [
                 SizedBox(
                   height: AppDimen.h10,
@@ -77,7 +76,7 @@ class _ForYouCardShowState extends State<ForYouCardShow> {
               child: Padding(
                 padding: EdgeInsets.only(right: AppDimen.w16),
                 child: ListView.builder(
-                  physics: BouncingScrollPhysics(),
+                  physics: const BouncingScrollPhysics(),
                   itemCount: widget.forYouCard.options.length,
                   itemBuilder: (BuildContext context, int index) {
                     final option = widget.forYouCard.options[index];

@@ -2,7 +2,6 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'bloc_state.freezed.dart';
 
-//TODO not supported to extends freezed classes
 @freezed
 abstract class BlocState<T> with _$BlocState<T> {
   const factory BlocState.initial() = InitialState<T>;
@@ -27,7 +26,7 @@ extension BlocStateExtension<T> on BlocState<T> {
     String? error,
   }) {
     if (isData && data != null) {
-      return BlocState.data();
+      return const BlocState.data();
     } else if (isError && error != null) {
       return BlocState.error(error);
     } else {

@@ -2,50 +2,50 @@ import 'package:flutter/material.dart';
 import 'package:learningcards/app/app_dimen.dart';
 
 final ThemeData appTheme = ThemeData(
-    primaryColor: const Color(0xFF00425A),
-    errorColor: const Color(0xFFDC5F5F),
-    secondaryHeaderColor: const Color(0xFFFFFFFF).withOpacity(0.2),
-    cardColor: const Color(0xFFFFFFFF).withOpacity(0.2),
-    textTheme: TextTheme(
-      bodyLarge: const TextStyle(
-        color: Color(0xFFFFFFFF),
-        fontSize: 21,
-        height: 1.2,
-      ),
-      bodyMedium: TextStyle(
-        color: const Color(0xFFFFFFFF).withOpacity(0.7),
-        fontSize: 17,
+  primaryColor: const Color(0xFF00425A),
+  secondaryHeaderColor: const Color(0xFFFFFFFF).withOpacity(0.2),
+  cardColor: const Color(0xFFFFFFFF).withOpacity(0.2),
+  textTheme: TextTheme(
+    bodyLarge: const TextStyle(
+      color: Color(0xFFFFFFFF),
+      fontSize: 21,
+      height: 1.2,
+    ),
+    bodyMedium: TextStyle(
+      color: const Color(0xFFFFFFFF).withOpacity(0.7),
+      fontSize: 17,
+      height: 1.18,
+    ),
+    labelLarge: const TextStyle(
+      color: Color(0xFFFFFFFF),
+      fontSize: 18,
+      height: 1.2,
+    ),
+    bodySmall: TextStyle(
+      color: const Color(0xFFFFFFFF).withOpacity(0.6),
+      fontSize: 14,
+      height: 1.16,
+    ),
+    labelSmall: const TextStyle(
+      color: Color(0xFFFFFFFF),
+      fontSize: 10,
+      height: 1.2,
+    ),
+    labelMedium: TextStyle(
+        color: const Color(0xFFFFFFFF),
+        fontSize: 12,
         height: 1.18,
-      ),
-      labelLarge: const TextStyle(
-        color: Color(0xFFFFFFFF),
-        fontSize: 18,
-        height: 1.2,
-      ),
-      bodySmall: TextStyle(
-        color: const Color(0xFFFFFFFF).withOpacity(0.6),
-        fontSize: 14,
-        height: 1.16,
-      ),
-      labelSmall: const TextStyle(
-        color: Color(0xFFFFFFFF),
-        fontSize: 10,
-        height: 1.2,
-      ),
-      labelMedium: TextStyle(
-          color: const Color(0xFFFFFFFF),
-          fontSize: 12,
-          height: 1.18,
-          letterSpacing: -0.1,
-          shadows: [AppDimen.commonShadow]),
-    ),
-    disabledColor: const Color(0xFFFFFFFF).withOpacity(0.4),
-    appBarTheme: const AppBarTheme(
-      color: Color(0xFF000000),
-    ),
-    extensions: [
-      AppColors.light,
-    ]);
+        letterSpacing: -0.1,
+        shadows: [AppDimen.commonShadow]),
+  ),
+  disabledColor: const Color(0xFFFFFFFF).withOpacity(0.4),
+  appBarTheme: const AppBarTheme(
+    color: Color(0xFF000000),
+  ),
+  extensions: const [
+    AppColors.light,
+  ],
+);
 
 @immutable
 class AppColors extends ThemeExtension<AppColors> {
